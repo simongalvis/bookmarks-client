@@ -41,23 +41,51 @@ class UpdateBookmark extends Component{
             
         });
      }
- /*     url:  e.target == 'url'? e.target.value: this.state.url,
-     description:  e.target == 'description'? e.target.value: this.state.description,
-     rating:  e.target == 'rating'? e.target.value: this.state.rating */
+
+ 
 
     componentDidMount(){
         const bookmarkId = this.props.match.params.bookmarkId
         const findById = (id) => this.context.bookmarks.find(bookmark => bookmark.id == id)
         const bookmark = findById(bookmarkId)
         this.setState({
-            title: bookmark.title,
-            url: bookmark.url,
-            description: bookmark.description,
-            rating: bookmark.rating
+            title: bookmark.title || "Sample",
+            url: bookmark.url || "Sample",
+            description: bookmark.description || "Sample",
+            rating: bookmark.rating|| "Sample"
         })
+
+        
         
      
     }
+    handleSubmit = e => {
+        e.preventDefault()
+        const { bookmarkId } = this.props.match.params
+        const { id, title, url, description, rating } = this.state
+        const newBookmark = { id, title, url, description, rating }
+        fetch(config.API_ENDPOINT + `/${bookmarkId}`, {
+          method: 'PATCH',
+          body: JSON.stringify(newBookmark),
+          headers: {
+            'content-type': 'application/json',
+            //'authorization': `Bearer ${config.API_KEY}`
+          },
+        })
+          .then(res => {
+            if (!res.ok)
+              return res.json().then(error => Promise.reject(error))
+          })
+          .then(() => {
+           // this.resetFields(newBookmark)
+            this.context.updateBookmark(newBookmark)
+            this.props.history.push('/')
+          })
+          .catch(error => {
+            console.error(error)
+            this.setState({ error })
+          })
+      }
 
   
    render() {
@@ -74,14 +102,14 @@ class UpdateBookmark extends Component{
            <section className='EditArticleForm'>
                <h3>UpdateBookmark Component</h3>
         <h2>Edit article</h2>
-        <form>
-       <label for="title">Title:</label><br/>
+        <form onSubmit={this.handleSubmit}>
+       <label htmlFor="title">Title:</label><br/>
           <input type="text" id="title" name="title" value={this.state.title} onChange={this.handleChangeTitle}/><br/>
-          <label for="description">Description:</label><br/>
+          <label htmlFor="description">Description:</label><br/>
           <input type="text" id="description" name="description" value={this.state.description} onChange={this.handleChangeDescription}/><br/>
-          <label for="url">URL:</label><br/>
+          <label htmlFor="url">URL:</label><br/>
           <input type="text" id="url" name="url" value={this.state.url} onChange={this.handleChangeUrl}/><br/>
-          <label for="rating">Rating:</label><br/>
+          <label htmlFor="rating">Rating:</label><br/>
           <input type="number" id="rating" name="rating" value={this.state.rating} onChange={this.handleChangeRating}/><br/>
           <button type="submit" value="Update">Update</button>
         </form>

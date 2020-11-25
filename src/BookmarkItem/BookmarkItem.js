@@ -27,6 +27,7 @@ const deleteBookmarkRequest = (bookmarkId, cb) => {
     .then(data => {
       console.log({ data })
       cb(bookmarkId)
+      this.props.history.push('/')
     })
     .catch(error => {
       console.log(error)
