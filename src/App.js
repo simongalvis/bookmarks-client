@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import AddBookmark from './AddBookmark/AddBookmark';
+import UpdateBookmark from './UpdateBookmark/UpdateBookmark';
 import BookmarkList from './BookmarkList/BookmarkList';
 import BookmarksContext from './BookmarksContext';
 import Nav from './Nav/Nav';
@@ -78,6 +79,10 @@ class App extends Component {
             <Route exact
               path='/add-bookmark'
               component={AddBookmark}
+            />
+            <Route exact
+            path='/update-bookmark'
+            component={UpdateBookmark}
             />
             
             {/* <!--<BookmarkList bookmarks={[{title: 'hello', url: 'hi'}]}/> --> */}
