@@ -4,13 +4,18 @@ import BookmarksContext from '../BookmarksContext';
 import BookmarkItem from '../BookmarkItem/BookmarkItem';
 import PropTypes from 'prop-types';
 import './BookmarkList.css'
+import config from '../config';
 
 class BookmarkList extends Component {
   static defaultProps = {
     bookmarks: []
   };
 
+
   static contextType = BookmarksContext;
+componentDidMount(){
+ 
+}
 
   render() {
     const { bookmarks } = this.context

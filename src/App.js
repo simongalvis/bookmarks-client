@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import AddBookmark from './AddBookmark/AddBookmark';
-import UpdateBookmark from './UpdateBookmark/UpdateBookmark';
+import UpdateBookmark from './UpdateBookmark/UpdateBookmark.js';
 import BookmarkList from './BookmarkList/BookmarkList';
 import BookmarksContext from './BookmarksContext';
 import Nav from './Nav/Nav';
@@ -12,7 +12,7 @@ import Rating from './Rating/Rating';
 
 class App extends Component {
   state = {
-    bookmarks: [],
+    bookmarks: [{id:7, title:'Sample', url: 'https://courses.thinkful.com/node-postgres-v1/checkpoint/17', description: 'Jesus is Lord', rating: 5}],
     error: null,
   };
 
@@ -58,11 +58,14 @@ class App extends Component {
       .catch(error => this.setState({ error }))
   }
 
+  updateBookmark = () => {};
+
   render() {
     const contextValue = {
       bookmarks: this.state.bookmarks,
       addBookmark: this.addBookmark,
       deleteBookmark: this.deleteBookmark,
+      updateBookmark: this.updateBookmark
     }
     return (
       <main className='App'>
@@ -81,7 +84,7 @@ class App extends Component {
               component={AddBookmark}
             />
             <Route exact
-            path='/update-bookmark'
+            path='/update-bookmark/:bookmarkId'
             component={UpdateBookmark}
             />
             
